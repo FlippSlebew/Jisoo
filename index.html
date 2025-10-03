@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Link Page Angga</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #000; /* background hitam */
+      color: white;
+    }
+
+    h1 {
+      margin-top: 20px;
+      text-shadow: 2px 2px 6px #ff66cc;
+    }
+
+    .btn {
+      display: block;
+      width: 220px;
+      margin: 12px auto;
+      padding: 14px;
+      border-radius: 12px;
+      font-weight: bold;
+      text-decoration: none;
+      color: white;
+      font-size: 16px;
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
+      transition: transform 0.2s;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+    }
+
+    .wa { background: #25D366; }
+    .ig { background: #E1306C; }
+    .tt { background: #000000; border: 2px solid #fff; }
+
+    .quiz {
+      background: rgba(255,255,255,0.08);
+      padding: 20px;
+      border-radius: 20px;
+      width: 340px;
+      margin: 40px auto;
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.6);
+    }
+
+    .quiz h2 {
+      margin-bottom: 15px;
+    }
+
+    .quiz button {
+      display: block;
+      width: 85%;
+      margin: 8px auto;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: #ff66cc;
+      color: white;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: 0px 3px 8px rgba(0,0,0,0.4);
+    }
+
+    .quiz button:hover {
+      background: #ff3399;
+    }
+  </style>
+</head>
+<body>
+
+  <h1> Link Page Angga </h1>
+
+  <!-- Tombol Sosial Media -->
+  <a href="https://wa.me/6285655969061" class="btn wa">WhatsApp</a>
+  <a href="https://www.instagram.com/yukishiiroo/" class="btn ig">Instagram</a>
+  <a href="https://www.tiktok.com/@yaekuxinn" class="btn tt">TikTok</a>
+
+  <!-- Quiz Anime -->
+  <div class="quiz">
+    <h2>🎮 Quiz Anime 🎮</h2>
+    <p id="question">Loading...</p>
+    <div id="options"></div>
+    <p id="score">Score: 0</p>
+  </div>
+
+  <!-- Musik YouTube autoplay -->
+  <iframe width="0" height="0" src="https://www.youtube.com/embed/mGUjVbsYG6E?autoplay=1&loop=1&playlist=mGUjVbsYG6E" frameborder="0" allow="autoplay"></iframe>
+
+  <script>
+    const quizData = [
+      { q: "Siapa ayah Naruto?", o: ["Minato", "Kakashi", "Itachi"], a: 0 },
+      { q: "Siapa kapten kru Topi Jerami?", o: ["Luffy", "Zoro", "Sanji"], a: 0 },
+      { q: "Shinigami utama di Death Note?", o: ["Ryuk", "Rem", "Light"], a: 0 },
+      { q: "Nama pedang Ichigo?", o: ["Zangetsu", "Bankai", "Byakuya"], a: 0 },
+      { q: "Siapa Hokage ke-5?", o: ["Tsunade", "Sakura", "Kushina"], a: 0 },
+      { q: "Apa nama naga di Fairy Tail?", o: ["Igneel", "Acnologia", "Dragoon"], a: 0 },
+      { q: "Siapa rival utama Gon?", o: ["Killua", "Hisoka", "Kurapika"], a: 1 },
+      { q: "Anime dengan Titan?", o: ["Naruto", "Attack on Titan", "Bleach"], a: 1 },
+      { q: "Guru kelas 3-E di Assassination Classroom?", o: ["Koro-sensei", "Nagisa", "Karma"], a: 0 },
+      { q: "Karakter utama Tokyo Ghoul?", o: ["Kaneki", "Touka", "Amon"], a: 0 },
+      { q: "Nama iblis di Kimetsu no Yaiba?", o: ["Muzan", "Akaza", "Rui"], a: 0 },
+      { q: "Siapa yang bisa Gear 4?", o: ["Luffy", "Zoro", "Sanji"], a: 0 },
+      { q: "Shoto Todoroki punya quirk apa?", o: ["Api & Es", "Petir", "Air"], a: 0 },
+      { q: "Apa makanan favorit Goku?", o: ["Ramen", "Daging", "Onigiri"], a: 1 },
+      { q: "Siapa partner Pikachu?", o: ["Ash", "Brock", "Misty"], a: 0 },
+      { q: "Nama saudara Edward Elric?", o: ["Alphonse", "Roy", "Mustang"], a: 0 },
+      { q: "Anime dengan Death Scythe?", o: ["Soul Eater", "Naruto", "Bleach"], a: 0 },
+      { q: "Siapa yang punya Sharingan?", o: ["Sasuke", "Rock Lee", "Neji"], a: 0 },
+      { q: "Apa jurus andalan Saitama?", o: ["One Punch", "Kamehameha", "Rasengan"], a: 0 },
+      { q: "Siapa pilot EVA Unit-01?", o: ["Shinji", "Rei", "Asuka"], a: 0 }
+    ];
+
+    let current = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      if (current >= quizData.length) {
+        document.getElementById("question").innerText = "🎉 Quiz Selesai! Skor Akhir: " + score + "/" + quizData.length;
+        document.getElementById("options").innerHTML = "";
+        return;
+      }
+      const q = quizData[current];
+      document.getElementById("question").innerText = q.q;
+      const opts = document.getElementById("options");
+      opts.innerHTML = "";
+      q.o.forEach((opt, i) => {
+        const btn = document.createElement("button");
+        btn.innerText = opt;
+        btn.onclick = () => {
+          if (i === q.a) {
+            alert("Benar! 🥳");
+            score++;
+          } else {
+            alert("Salah 😅");
+          }
+          document.getElementById("score").innerText = "Score: " + score;
+          current++;
+          loadQuestion();
+        };
+        opts.appendChild(btn);
+      });
+    }
+
+    loadQuestion();
+  </script>
+
+</body>
+</html>
